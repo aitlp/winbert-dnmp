@@ -24,9 +24,17 @@
 mv services/nginx/conf.d/v2ray.conf  services/nginx/conf.d/v2ray.conf.bak
 ```
 
-3）开始申请证书
+3）启动相关容器
 
 ```
+docker-compose up -d
+```
+
+4）开始申请证书
+
+```
+docker container stop nginx
+
 sh ./init-letsencrypt.sh
 ```
 
