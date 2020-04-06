@@ -12,9 +12,19 @@
 
 1）修改`init-letsencrypt.sh`
 
-将`your_domain`修改为`4spaces.org`，将`your_email_address`修改为自己的邮箱地址。
+**将`your_domain`修改为`4spaces.org www.4spaces.org`**，将`your_email_address`修改为自己的邮箱地址。
 
 2）修改Nginx配置
+
+* 网站主目录
+
+将`www/4spaces`目录改为你自己的目录名，比如`www/your_domain`，命令为：
+
+```
+mv ./www/4spaces ./www/your_domain
+```
+
+* `nginx配置`
 
 其中，`services/nginx/conf.d/4spaces.conf`文件为网站域名对应配置；`services/nginx/conf.d/v2ray.conf`为v2ray对应配置。
 
@@ -23,6 +33,9 @@
 ```
 mv services/nginx/conf.d/v2ray.conf  services/nginx/conf.d/v2ray.conf.bak
 ```
+
+并将`services/nginx/conf.d/4spaces.conf`配置文件中的`server_name`、`root`分别改成自己的域名和网站目录位置。 
+
 
 3）启动相关容器
 
@@ -35,7 +48,7 @@ docker-compose up -d
 ```
 docker container stop nginx
 
-sh ./init-letsencrypt.sh
+bash ./init-letsencrypt.sh
 ```
 
 **3.为`v2.coding996.com`申请证书**
@@ -44,34 +57,11 @@ sh ./init-letsencrypt.sh
 
 将`your_domain`修改为`v2.coding996.com`，将`your_email_address`修改为自己的邮箱地址。
 
-2）修改Nginx配置
 
-将`services/nginx/conf.d/4spaces.conf`重命名为`services/nginx/conf.d/4spaces.conf.bak`，命令为：
-
-```
-mv services/nginx/conf.d/4spaces.conf  services/nginx/conf.d/4spaces.conf.bak
-```
-
-3）停止`nginx`
+2）开始申请证书
 
 ```
-docker container stop nginx
-```
-
-4）开始申请证书
-
-```
-sh ./init-letsencrypt.sh
-```
-
-**4.nginx配置文件复原**
-
-将刚才命名为`services/nginx/conf.d/4spaces.conf.bak`改回`services/nginx/conf.d/4spaces.conf`。
-
-**5.重启nginx**
-
-```
-docker exec nginx nginx -s reload
+bash ./init-letsencrypt.sh
 ```
 
 完成。
